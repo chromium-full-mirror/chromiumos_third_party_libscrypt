@@ -207,7 +207,8 @@ memlimit_sysconf(size_t * memlimit)
 	if (((pagesize = sysconf(_SC_PAGE_SIZE)) == -1) ||
 	    ((physpages = sysconf(_SC_PHYS_PAGES)) == -1)) {
 		/* Did an error occur? */
-		if (errno != 0)
+		/* TODO: wrap ENOSYS with autoconf detection testing. */
+		if (errno != 0 && errno != ENOSYS)
 			return (1);
 
 		/* If not, there is no limit. */
